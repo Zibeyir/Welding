@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/WeldingScene 1.unity
+    guid: 85609e1e1be4e1149a096b381b982900
   m_configObjects: {}

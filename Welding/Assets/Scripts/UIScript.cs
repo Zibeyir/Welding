@@ -15,6 +15,7 @@ public class UIScript : MonoBehaviour
         BGOptions.SetActive(true);
         BGFigures.SetActive(false);
         weldingScript.enabled = false;
+        Figures[0].SetActive(true);
     }
 
     public void OptionsCanvasFunc()

@@ -1,0 +1,28 @@
+fileFormatVersion: 2
+guid: 7d750758ac0d6ed49b9e0e356fb70bb4
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Gotham Pro
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b1e2b45bdaf72b94b91a7244a145c93e, type: 3}
+  - {fileID: 12800000, guid: 7485ad42746a2ab4b83c8232d428fc1c, type: 3}
+  - {fileID: 12800000, guid: 2715e7d0a025f3446a99b960923f8804, type: 3}
+  - {fileID: 12800000, guid: 501a2f4b9eb682e45918d7a6f2a5a742, type: 3}
+  - {fileID: 12800000, guid: 4028a724d4affe14d9a02776109897a2, type: 3}
+  - {fileID: 12800000, guid: 556c2938ec329ff4e94135fe372d0616, type: 3}
+  - {fileID: 12800000, guid: 9a8b9083d9cc82b4596c417801eeb39c, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
