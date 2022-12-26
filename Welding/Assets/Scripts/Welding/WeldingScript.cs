@@ -11,6 +11,7 @@ public class WeldingScript : MonoBehaviour
     public GameObject vfx;
     public GameObject[] welds;
     float times = 0.2f;
+    public GameObject SpotLight;
     void Start()
     {
         
@@ -44,12 +45,14 @@ public class WeldingScript : MonoBehaviour
         {
             light.intensity = 1;
             VFX.gameObject.SetActive(true);
+            SpotLight.SetActive(true);
             //PointLight.gameObject.SetActive(true);
 
         }
         if (Input.GetMouseButtonUp(0))
         {
             VFX.gameObject.SetActive(false);
+            SpotLight.SetActive(false);
 
             StartCoroutine(LightTime());
             //PointLight.gameObject.SetActive(false);
