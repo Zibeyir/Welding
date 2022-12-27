@@ -27,11 +27,11 @@ public class WeldingScript : MonoBehaviour
     public Transform VFX;
     IEnumerator LightTime()
     {
-        print("LightTime");
+        //print("LightTime");
         LightTimeFloat = 1;
         while (LightTimeFloat>0)
         {
-            print("LightTime"+ LightTimeFloat);
+            //print("LightTime"+ LightTimeFloat);
 
             yield return new WaitForSeconds(0.01f);
             LightTimeFloat -= .005f;

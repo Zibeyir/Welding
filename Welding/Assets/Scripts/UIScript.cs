@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIScript : MonoBehaviour
 {
@@ -17,7 +18,10 @@ public class UIScript : MonoBehaviour
         weldingScript.enabled = false;
         Figures[0].SetActive(true);
     }
-
+    public void Restart()
+    {
+        SceneManager.LoadScene(0);
+    }
     public void OptionsCanvasFunc()
     {
         BGOptions.SetActive(false);
