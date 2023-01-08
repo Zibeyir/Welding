@@ -25,6 +25,10 @@ public class WeldingScript : MonoBehaviour
     RaycastHit hit;
     float LightTimeFloat;
     public Transform VFX;
+    float speed;
+    float rotationSpeed;
+    Vector2 PassVector = new Vector2();
+    Quaternion quaternionWelding = new Quaternion();
     IEnumerator LightTime()
     {
         //print("LightTime");
@@ -90,10 +94,13 @@ public class WeldingScript : MonoBehaviour
                     PointLight.position = hit.point;
                         VFX.position = hit.point;
                     //Instantiate(vfx, hit.point, Quaternion.identity);
-                    Instantiate(welds[randomNumber], hit.point, Quaternion.identity, parent);
+                    GameObject w= Instantiate(welds[randomNumber], hit.point, RotateWeldingInstantiate(hit.point), parent);
+                        print("w"+w.transform.rotation.eulerAngles);
+                        w.transform.Rotate(new Vector3(0, 0, 90));
+                        print("w" + w.transform.rotation.eulerAngles);
 
-                }
-                else
+                    }
+                    else
                 {
                     if (hit.transform.tag != "Stone")
                         {
@@ -120,5 +127,19 @@ public class WeldingScript : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, sphereRadius);
+    }
+    public Quaternion RotateWeldingInstantiate(Vector2 V2)
+    {
+       
+        Vector2 movementDirection = V2-PassVector;
+        //float inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
+        //movementDirection.Normalize();
+        //Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, movementDirection);
+        PassVector = V2;
+        print(Quaternion.LookRotation(Vector3.forward, movementDirection));
+        //quaternionWelding = Quaternion.LookRotation(Vector3.forward, movementDirection) + new Vector3(0, 0, 90);
+        return Quaternion.LookRotation(Vector3.forward, movementDirection);
+        //transform.Translate(movementDirection *speed *inputMagnitude * Time.deltaTime, Space.World);
+
     }
 }
