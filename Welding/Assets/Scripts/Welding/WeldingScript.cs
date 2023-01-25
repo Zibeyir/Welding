@@ -20,6 +20,8 @@ public class WeldingScript : MonoBehaviour
     public float sphereRadius;
     public float maxDistance;
     public LayerMask layerMask;
+    public LayerMask layerMaskW;
+
     public Transform PointLight;
     public Light light;
     RaycastHit hit;
@@ -29,6 +31,11 @@ public class WeldingScript : MonoBehaviour
     float rotationSpeed;
     Vector2 PassVector = new Vector2();
     Quaternion quaternionWelding = new Quaternion();
+    int randomNumber;
+    GameObject w;
+    public float WeldingUpSize;
+    GameObject passObject=null;
+    public bool weldingBool = true;
     IEnumerator LightTime()
     {
         //print("LightTime");
@@ -73,54 +80,69 @@ public class WeldingScript : MonoBehaviour
             zIncrementer = 0;
 
 
-            // if (Physics.SphereCast(transform.position, sphereRadius, transform.forward, out hit, maxDistance,layerMask,QueryTriggerInteraction.UseGlobal))
-            // {
-            //
-            // }
            
 
+        
             if (Input.GetMouseButton(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100))
+        
             {
-                if(hit.transform.tag == "weld")
-                {                
-                        
 
-                    directinalLight.intensity = 0;
-                    int randomNumber = Random.Range(0, welds.Length);
-                    PointLight.position = hit.point;
-                        VFX.position = hit.point;
-                    //Instantiate(vfx, hit.point, Quaternion.identity);
-                    GameObject w= Instantiate(welds[randomNumber], hit.point, RotateWeldingInstantiate(hit.point), parent);
-                        print("w"+w.transform.rotation.eulerAngles);
-                        w.transform.Rotate(new Vector3(0, 0, 90));
-                        print("w" + w.transform.rotation.eulerAngles);
-
-                    }
-                    else
+            
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, 100))
                 {
-                    if (hit.transform.tag != "Stone")
-                        {
-                            Instantiate(vfx, hit.point, Quaternion.identity);
-
-                            directinalLight.intensity = 1;
-                    }
-                    else
+                    if (hit.collider.CompareTag("Stone"))
                     {
-                        Instantiate(vfx, hit.point, Quaternion.identity);
+                        if (hit.collider.gameObject.transform.localScale.x<10)
+                        {
+                            hit.collider.gameObject.transform.localScale += new Vector3(WeldingUpSize, WeldingUpSize, WeldingUpSize);
+
+                        }
+
+                        if (hit.collider.gameObject == passObject)
+                        {
+                            weldingBool = false;
+
+                        }
+                        else
+                        {
+                            passObject = hit.collider.gameObject;
+                            weldingBool = true;
+                        }
+                    }
+                    if (hit.collider.CompareTag("weld"))
+                    {
+                        weldingBool = true;
 
                     }
-
                 }
+                
+                if (Physics.Raycast(ray, out hit, 100, layerMask))
+                {
+                   
+                    if (weldingBool)
+                    {
+                        directinalLight.intensity = 0;
+                        randomNumber = Random.Range(0, welds.Length);
+                        PointLight.position = hit.point;
+                        VFX.position = hit.point;
+                        w = Instantiate(welds[randomNumber], hit.point, RotateWeldingInstantiate(hit.point), parent);
+                        w.transform.Rotate(new Vector3(0, 0, 90));
+                    }
+                    
+                }
+                
+            
+                
+        
+            }       
+            else        
+            {        
+                directinalLight.intensity = 1;        
             }
-        }
-        else
-        {
-            directinalLight.intensity = 1;
-        }
+        
         }
     }
     private void OnDrawGizmos()

@@ -14,7 +14,10 @@ public class SetText : MonoBehaviour
 
     public void SetMyText(float value)
     {
-        myText.text = ((int)(value*759)).ToString();
+       
+        myText.text = ((int)(value*960)).ToString();
+
+
     }
     public void SetMyText2(float value)
     {
