@@ -5,37 +5,33 @@ using UnityEngine;
 public class WeldingScript : MonoBehaviour
 {
     public float zIncrementer;
-
+    public WeldingSpeed weldingSpeed;
     public Transform parent;
     public Light directinalLight;
     public GameObject vfx;
     public GameObject[] welds;
-    float times = 0.2f;
     public GameObject SpotLight;
-    void Start()
-    {
-        
-    }
+
+
 
     public float sphereRadius;
     public float maxDistance;
     public LayerMask layerMask;
     public LayerMask layerMaskW;
+    public LayerMask layerMaskScore;
 
     public Transform PointLight;
     public Light light;
-    RaycastHit hit;
     float LightTimeFloat;
     public Transform VFX;
-    float speed;
-    float rotationSpeed;
+   
     Vector2 PassVector = new Vector2();
-    Quaternion quaternionWelding = new Quaternion();
     int randomNumber;
     GameObject w;
     public float WeldingUpSize;
     GameObject passObject=null;
     public bool weldingBool = true;
+    public bool weldingScriptBool=false;
     IEnumerator LightTime()
     {
         //print("LightTime");
@@ -52,98 +48,137 @@ public class WeldingScript : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (weldingScriptBool)
         {
-            light.intensity = 1;
-            VFX.gameObject.SetActive(true);
-            SpotLight.SetActive(true);
-            //PointLight.gameObject.SetActive(true);
+            if (Input.GetMouseButtonDown(0))
+            {
+                light.intensity = 1;
+                VFX.gameObject.SetActive(true);
+                SpotLight.SetActive(true);
+                //PointLight.gameObject.SetActive(true);
 
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                VFX.gameObject.SetActive(false);
+                SpotLight.SetActive(false);
+
+                StartCoroutine(LightTime());
+                //PointLight.gameObject.SetActive(false);
+
+
+            }
         }
-        if (Input.GetMouseButtonUp(0))
-        {
-            VFX.gameObject.SetActive(false);
-            SpotLight.SetActive(false);
-
-            StartCoroutine(LightTime());
-            //PointLight.gameObject.SetActive(false);
-
-
-        }
+        
     }
+
+    public void StopWelding()
+    {
+        VFX.gameObject.SetActive(false);
+        SpotLight.SetActive(false);
+
+        StartCoroutine(LightTime());
+        directinalLight.intensity = 1;
+
+    }
+
     void FixedUpdate()
     {
-        zIncrementer += 1;
-
-        if (zIncrementer >= 4)
+        if (weldingScriptBool)
         {
-            zIncrementer = 0;
+            zIncrementer += 1;
 
-
-           
-
-        
-            if (Input.GetMouseButton(0))
-        
+            if (zIncrementer >= 4)
             {
+                zIncrementer = 0;
 
-            
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, 100))
+
+
+
+
+                if (Input.GetMouseButton(0))
+
                 {
-                    if (hit.collider.CompareTag("Stone"))
+
+
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit, 100,layerMaskW))
                     {
-                        if (hit.collider.gameObject.transform.localScale.x<10)
+                        if (hit.collider.CompareTag("Stone"))
                         {
-                            hit.collider.gameObject.transform.localScale += new Vector3(WeldingUpSize, WeldingUpSize, WeldingUpSize);
+                            if (hit.collider.gameObject.transform.localScale.x < 10)
+                            {
+                                hit.collider.gameObject.transform.localScale += new Vector3(WeldingUpSize, WeldingUpSize, WeldingUpSize);
 
+                            }
+
+                            if (hit.collider.gameObject == passObject)
+                            {
+                                weldingBool = false;
+
+                            }
+                            else
+                            {
+                                passObject = hit.collider.gameObject;
+                                weldingBool = true;
+                            }
                         }
-
-                        if (hit.collider.gameObject == passObject)
+                        if (hit.collider.CompareTag("weld"))
                         {
-                            weldingBool = false;
-
-                        }
-                        else
-                        {
-                            passObject = hit.collider.gameObject;
                             weldingBool = true;
+
                         }
                     }
-                    if (hit.collider.CompareTag("weld"))
+
+                    if (Physics.Raycast(ray, out hit, 100, layerMask))
                     {
-                        weldingBool = true;
+
+                        if (weldingBool)
+                        {
+                            directinalLight.intensity = 0.2f;
+                            randomNumber = Random.Range(0, welds.Length);
+                            PointLight.position = hit.point;
+                            VFX.position = hit.point;
+                            w = Instantiate(welds[randomNumber], hit.point, RotateWeldingInstantiate(hit.point), parent);
+                            w.transform.Rotate(new Vector3(0, 0, 90));
+                        }
 
                     }
-                }
-                
-                if (Physics.Raycast(ray, out hit, 100, layerMask))
-                {
-                   
-                    if (weldingBool)
+                    if (Physics.Raycast(ray, out hit, 100, layerMaskScore))
                     {
-                        directinalLight.intensity = 0;
-                        randomNumber = Random.Range(0, welds.Length);
-                        PointLight.position = hit.point;
-                        VFX.position = hit.point;
-                        w = Instantiate(welds[randomNumber], hit.point, RotateWeldingInstantiate(hit.point), parent);
-                        w.transform.Rotate(new Vector3(0, 0, 90));
+                        weldingSpeed.WeldingScoreBool = true;
+
+                        //if (hit.collider.CompareTag("Score"))
+                        //{
+                        //    weldingSpeed.WeldingScoreBool = true;
+
+                        //}
+                        //else
+                        //{
+                        //    weldingSpeed.WeldingScoreBool = false;
+
+                        //}
+
                     }
-                    
+                    else
+                    {
+                        weldingSpeed.WeldingScoreBool = false;
+
+                    }
+
+
+
                 }
-                
-            
-                
-        
-            }       
-            else        
-            {        
-                directinalLight.intensity = 1;        
+                else
+                {
+                    directinalLight.intensity = 1;
+                }
+
             }
-        
         }
+       
     }
     private void OnDrawGizmos()
     {
@@ -158,7 +193,7 @@ public class WeldingScript : MonoBehaviour
         //movementDirection.Normalize();
         //Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, movementDirection);
         PassVector = V2;
-        print(Quaternion.LookRotation(Vector3.forward, movementDirection));
+        //print(Quaternion.LookRotation(Vector3.forward, movementDirection));
         //quaternionWelding = Quaternion.LookRotation(Vector3.forward, movementDirection) + new Vector3(0, 0, 90);
         return Quaternion.LookRotation(Vector3.forward, movementDirection);
         //transform.Translate(movementDirection *speed *inputMagnitude * Time.deltaTime, Space.World);

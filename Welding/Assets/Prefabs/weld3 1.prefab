@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6316321520380236756}
   - component: {fileID: 6919727365235170417}
   - component: {fileID: 5180045748128229563}
-  - component: {fileID: -8714664325360269535}
+  - component: {fileID: -8554510848313876151}
   m_Layer: 6
   m_Name: weld3 1
   m_TagString: Stone
@@ -82,7 +82,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &-8714664325360269535
+--- !u!135 &-8554510848313876151
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,7 +90,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6693409360013101422}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.009037364
