@@ -32,6 +32,7 @@ public class WeldingScript : MonoBehaviour
     GameObject passObject=null;
     public bool weldingBool = true;
     public bool weldingScriptBool=false;
+    public GameObject quad;
     IEnumerator LightTime()
     {
         //print("LightTime");
@@ -108,10 +109,15 @@ public class WeldingScript : MonoBehaviour
                     {
                         if (hit.collider.CompareTag("Stone"))
                         {
-                            if (hit.collider.gameObject.transform.localScale.x < 10)
+                            if (hit.collider.gameObject.transform.localScale.x < 5.2f)
                             {
                                 hit.collider.gameObject.transform.localScale += new Vector3(WeldingUpSize, WeldingUpSize, WeldingUpSize);
 
+                            }
+                            else
+                            {
+                                Destroy(hit.collider.gameObject);
+                                Instantiate(quad, new Vector3(hit.point.x, hit.point.y, -0.283f), Quaternion.identity);
                             }
 
                             if (hit.collider.gameObject == passObject)

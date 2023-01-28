@@ -2036,6 +2036,7 @@ MonoBehaviour:
   WeldingUpSize: 0.1
   weldingBool: 1
   weldingScriptBool: 0
+  quad: {fileID: 8842967736582148217, guid: 483d34ddc6e69994a96cbc942ffc0306, type: 3}
 --- !u!114 &493736632
 MonoBehaviour:
   m_ObjectHideFlags: 0
